@@ -2,7 +2,7 @@ import React from 'react';
 import {StyleSheet, Text, TouchableOpacity} from 'react-native';
 
 export default function SubmitButton({
-  disabled,
+  disabled = false,
   title = '',
   onPress = () => {},
 }) {
