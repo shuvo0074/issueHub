@@ -14,14 +14,32 @@ export const fetchIssues = () => (dispatch, getState) => {
   });
 };
 
-export const fetchSingleIssue = () => (dispatch, getState) => {
-  FetchService(
-    'GET',
-    `repos/${getState().issues.username_param}/${
-      getState().issues.repository_param
-    }`,
-  ).then(res => {
-    console.log(res.open_issues_count);
-    dispatch(setissueCount(res.open_issues_count));
+export const fetchSingleRepoDetails = () => (dispatch, getState) => {
+  return new Promise((resolve, reject) => {
+    FetchService(
+      'GET',
+      `repos/${getState().issues.username_param}/${
+        getState().issues.repository_param
+      }`,
+    )
+      .then(res => {
+        if (res.open_issues_count) {
+          dispatch(setissueCount(res.open_issues_count));
+          resolve(res);
+        } else reject('Project Not Found');
+      })
+      .catch(() => reject('Project Not Found'));
+  });
+};
+
+export const fetchSingleUserDetails = () => (dispatch, getState) => {
+  return new Promise((resolve, reject) => {
+    FetchService('GET', `users/${getState().issues.username_param}`)
+      .then(res => {
+        if (res.id) {
+          resolve(res);
+        } else reject('User Not found');
+      })
+      .catch(() => reject('User Not Found'));
   });
 };
