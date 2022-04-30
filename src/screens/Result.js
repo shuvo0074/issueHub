@@ -6,20 +6,27 @@
  * @flow strict-local
  */
 
-import React from 'react';
+import React, {useEffect} from 'react';
 import type {Node} from 'react';
 import {
-  SafeAreaView,
   ScrollView,
   StatusBar,
   StyleSheet,
   Text,
   useColorScheme,
   View,
-  TouchableOpacity,
+  Dimensions,
 } from 'react-native';
 
 import {Colors} from 'react-native/Libraries/NewAppScreen';
+import {useDispatch, useSelector} from 'react-redux';
+import {clearResult} from '../actions/searchActions';
+import {fetchIssues} from '../actions/common';
+import SubmitButton from '../components/search/SubmitButton';
+import Logo from '../components/global/Logo';
+import ResultItem from '../components/result/ResultItem';
+
+const {height} = Dimensions.get('screen');
 
 const Section = ({children, title}): Node => {
   const isDarkMode = useColorScheme() === 'dark';
@@ -49,30 +56,91 @@ const Section = ({children, title}): Node => {
 
 const Result: () => Node = ({navigation}) => {
   const isDarkMode = useColorScheme() === 'dark';
+  const dispatch = useDispatch();
+
+  const {
+    currentPageIndex,
+    currentState,
+    isLastResultPage,
+    issueList,
+    openIssueCount,
+  } = useSelector(state => state.issues);
+
+  useEffect(() => {
+    dispatch(fetchIssues());
+    return () => dispatch(clearResult());
+  }, []);
 
   const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
+    backgroundColor: '#040C28',
   };
 
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
+    <View style={backgroundStyle}>
+      <StatusBar barStyle={'dark-content'} />
+
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <TouchableOpacity
-          onPress={() => navigation.navigate('Search')}
+        style={backgroundStyle}
+        contentContainerStyle={{
+          minHeight: height,
+        }}>
+        <Logo style={styles.logo} />
+        <View
           style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
+            flexDirection: 'row',
+            alignItems: 'center',
+            borderBottomWidth: 1,
+            borderBottomColor: '#373d53',
+            paddingBottom: 25,
           }}>
-          <Section title="Step One">Result</Section>
-        </TouchableOpacity>
+          <Text
+            numberOfLines={3}
+            style={{
+              fontSize: 20,
+              fontWeight: '500',
+              color: '#fff',
+              marginLeft: 25,
+            }}>
+            Issues
+          </Text>
+          <View
+            style={{
+              backgroundColor: '#1c243d',
+              paddingVertical: 3,
+              paddingHorizontal: 6,
+              borderRadius: 12,
+              alignItems: 'center',
+              justifyContent: 'center',
+              marginLeft: 10,
+            }}>
+            <Text
+              numberOfLines={3}
+              style={{
+                fontSize: 12,
+                fontWeight: '600',
+                color: 'grey',
+              }}>
+              {openIssueCount}
+            </Text>
+          </View>
+        </View>
+        {issueList.map(item => (
+          <ResultItem item={item} key={item.id} />
+        ))}
+        <SubmitButton
+          title="Search Again"
+          onPress={() => navigation.navigate('Search')}
+        />
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
+  logo: {
+    marginLeft: 25,
+  },
   sectionContainer: {
     marginTop: 32,
     paddingHorizontal: 24,
