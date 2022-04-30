@@ -15,6 +15,7 @@ const result = {
 const search = {
   icCorrect: require('./search/icCorrect.png'),
   searchInputBg: require('./search/searchInputBg.png'),
+  errorBg: require('./search/errorBg.png'),
 };
 
 export const assets = {
