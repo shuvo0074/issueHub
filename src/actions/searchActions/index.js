@@ -18,7 +18,7 @@ export const setissueCount = count => {
   };
 };
 
-export const setUserameSearchParam = username => {
+export const setUserNameSearchParam = username => {
   return {
     type: 'SET_USERNAME_PARAM',
     payload: username,
