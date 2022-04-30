@@ -9,102 +9,99 @@
 import React, {useEffect} from 'react';
 import type {Node} from 'react';
 import {
-  SafeAreaView,
-  ScrollView,
+  View,
   StatusBar,
   StyleSheet,
-  Text,
   useColorScheme,
-  View,
-  TouchableOpacity,
+  ImageBackground,
+  Dimensions,
+  Image,
 } from 'react-native';
+const {height} = Dimensions.get('screen');
 
+import {useDispatch, useSelector} from 'react-redux';
 import {
-  Colors,
-} from 'react-native/Libraries/NewAppScreen';
-import FetchService from '../services/fetchService';
+  fetchSingleRepoDetails,
+  fetchSingleUserDetails,
+} from '../actions/common';
+import CustomTextInput from '../components/search/CustomTextInput';
+import {
+  setRepositoryNameSearchParam,
+  setUserNameSearchParam,
+} from '../actions/searchActions';
+import {assets} from '../assets';
+import SubmitButton from '../components/search/SubmitButton';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
-const Section = ({children, title}): Node => {
+const Search: () => Node = ({navigation}) => {
   const isDarkMode = useColorScheme() === 'dark';
+  const dispatch = useDispatch();
+  const {username_param, repository_param} = useSelector(state => state.issues);
+
+  useEffect(() => {
+    dispatch(fetchSingleUserDetails());
+  }, []);
+
+  const backgroundStyle = {
+    backgroundColor: '#0c1955',
+  };
+
   return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
+    <View style={backgroundStyle}>
+      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
+      <ImageBackground
+        source={assets.search.searchInputBg}
+        imageStyle={styles.bgImage}
+        style={styles.bgContainer}>
+        <Image source={assets.global.logo} style={styles.logoImg} />
+        <KeyboardAwareScrollView
+          contentContainerStyle={{
+            marginTop: 80,
+          }}>
+          <CustomTextInput
+            value={username_param}
+            setValue={txt => dispatch(setUserNameSearchParam(txt))}
+            checkValidity={fetchSingleUserDetails}
+            isRequired
+            autoFocus
+            customStyle={styles.textInputStyle}
+            title="Owner"
+            placeholder="Repository Name"
+          />
+          <CustomTextInput
+            value={repository_param}
+            setValue={txt => dispatch(setRepositoryNameSearchParam(txt))}
+            checkValidity={fetchSingleRepoDetails}
+            isRequired
+            customStyle={styles.textInputStyle}
+            title="Repository"
+            placeholder="Repository Name"
+          />
+          <SubmitButton
+            title="Show Issues"
+            onPress={() => navigation.navigate('Result')}
+          />
+        </KeyboardAwareScrollView>
+      </ImageBackground>
     </View>
   );
 };
 
-const Search: () => Node = ({navigation}) => {
-  const isDarkMode = useColorScheme() === 'dark';
-  useEffect(() => {
-    console.log(navigation, '=-==-');
-    FetchService(
-      'GET',
-      'repos/doublesymmetry/react-native-track-player/issues',
-    ).then(res => console.log(res));
-  }, []);
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-
-  return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <TouchableOpacity
-          onPress={() => navigation.navigate('Result')}
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <View
-            style={{
-              backgroundColor: isDarkMode ? Colors.black : Colors.white,
-            }}>
-            <Section title="Search">
-              Edit <Text style={styles.highlight}>Search</Text>
-            </Section>
-          </View>
-        </TouchableOpacity>
-      </ScrollView>
-    </SafeAreaView>
-  );
-};
-
 const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
+  bgImage: {
+    height,
   },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
+  logoImg: {
+    width: 112,
+    height: 84,
+    marginBottom: 25,
   },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
+  bgContainer: {
+    paddingHorizontal: 25,
+    paddingTop: 60,
   },
-  highlight: {
-    fontWeight: '700',
+  textInputStyle: {
+    marginBottom: 25,
   },
 });
 

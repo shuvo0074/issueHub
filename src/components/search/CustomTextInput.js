@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
         ? 1
         : 0,
     borderColor: inputState == INPUT_STATES.ERROR ? '#FF0000' : '#3267F0',
-    width: width - 48,
+    width: width - 50,
     alignSelf: 'center',
     borderRadius: 12,
     height: 66,
