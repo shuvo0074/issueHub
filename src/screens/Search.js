@@ -15,7 +15,6 @@ import {
   useColorScheme,
   ImageBackground,
   Dimensions,
-  Image,
 } from 'react-native';
 const {height} = Dimensions.get('screen');
 
@@ -32,6 +31,7 @@ import {
 import {assets} from '../assets';
 import SubmitButton from '../components/search/SubmitButton';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import Logo from '../components/global/Logo';
 
 const Search: () => Node = ({navigation}) => {
   const isDarkMode = useColorScheme() === 'dark';
@@ -56,7 +56,7 @@ const Search: () => Node = ({navigation}) => {
         source={assets.search.searchInputBg}
         imageStyle={styles.bgImage}
         style={styles.bgContainer}>
-        <Image source={assets.global.logo} style={styles.logoImg} />
+        <Logo />
         <KeyboardAwareScrollView
           contentContainerStyle={{
             marginTop: 80,
@@ -97,14 +97,8 @@ const styles = StyleSheet.create({
   bgImage: {
     height,
   },
-  logoImg: {
-    width: 112,
-    height: 84,
-    marginBottom: 25,
-  },
   bgContainer: {
     paddingHorizontal: 25,
-    paddingTop: 60,
   },
   textInputStyle: {
     marginBottom: 25,
