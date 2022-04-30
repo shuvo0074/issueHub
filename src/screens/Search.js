@@ -36,7 +36,10 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 const Search: () => Node = ({navigation}) => {
   const isDarkMode = useColorScheme() === 'dark';
   const dispatch = useDispatch();
-  const {username_param, repository_param} = useSelector(state => state.issues);
+
+  const {username_param, repository_param, openIssueCount} = useSelector(
+    state => state.issues,
+  );
 
   useEffect(() => {
     dispatch(fetchSingleUserDetails());
@@ -78,8 +81,11 @@ const Search: () => Node = ({navigation}) => {
             placeholder="Repository Name"
           />
           <SubmitButton
+            disabled={!openIssueCount}
             title="Show Issues"
-            onPress={() => navigation.navigate('Result')}
+            onPress={() => {
+              navigation.navigate('Result');
+            }}
           />
         </KeyboardAwareScrollView>
       </ImageBackground>
