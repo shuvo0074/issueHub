@@ -1,23 +1,24 @@
 import React from 'react';
-import {
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-} from 'react-native';
-import {useDispatch} from 'react-redux';
+import {StyleSheet, Text, TouchableOpacity} from 'react-native';
 
-export default function SubmitButton({title = '', onPress = () => {}}) {
-  const dispatch = useDispatch();
+export default function SubmitButton({
+  disabled,
+  title = '',
+  onPress = () => {},
+}) {
   return (
-    <TouchableOpacity style={styles.btnContainer} onPress={onPress}>
+    <TouchableOpacity
+      disabled={disabled}
+      style={styles.btnContainer(disabled)}
+      onPress={onPress}>
       <Text style={styles.btnTxt}>{title}</Text>
     </TouchableOpacity>
   );
 }
 
 const styles = StyleSheet.create({
-  btnContainer: {
-    backgroundColor: '#9A41EA',
+  btnContainer: disabled => ({
+    backgroundColor: disabled ? '#652fa6' : '#9A41EA',
     height: 48,
     width: 174,
     alignItems: 'center',
@@ -25,7 +26,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     borderRadius: 8,
     marginTop: 10,
-  },
+  }),
   btnTxt: {
     color: '#fff',
     fontSize: 14,
