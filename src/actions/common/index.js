@@ -26,9 +26,15 @@ export const fetchSingleRepoDetails = () => (dispatch, getState) => {
         if (res.open_issues_count) {
           dispatch(setissueCount(res.open_issues_count));
           resolve(res);
-        } else reject('Project Not Found');
+        } else {
+          setissueCount(0);
+          reject('Project Not Found');
+        }
       })
-      .catch(() => reject('Project Not Found'));
+      .catch(() => {
+        setissueCount(0);
+        reject('Project Not Found');
+      });
   });
 };
 
@@ -38,8 +44,14 @@ export const fetchSingleUserDetails = () => (dispatch, getState) => {
       .then(res => {
         if (res.id) {
           resolve(res);
-        } else reject('User Not found');
+        } else {
+          setissueCount(0);
+          reject('User Not found');
+        }
       })
-      .catch(() => reject('User Not Found'));
+      .catch(() => {
+        setissueCount(0);
+        reject('User Not Found');
+      });
   });
 };
