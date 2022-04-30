@@ -16,7 +16,6 @@ export default function ResultItem({item}) {
     <TouchableOpacity
       onPress={() => setIsSelected(s => !s)}
       style={styles.itemContainer(isSelected)}>
-      {console.log(item, '=--=====')}
       <Image
         source={
           item.state == 'open'
@@ -26,9 +25,7 @@ export default function ResultItem({item}) {
         style={styles.listIc}
       />
       <View
-        style={{
-          width: width - 100,
-        }}>
+        style={styles.detailsCard}>
         <Text numberOfLines={3} style={styles.titletxt}>
           {item.title}
         </Text>
@@ -40,21 +37,11 @@ export default function ResultItem({item}) {
       </View>
       {item.comments ? (
         <View
-          style={{
-            width: 34,
-            height: 20,
-            flexDirection: 'row',
-            marginLeft: 5,
-          }}>
+          style={styles.commentsContainer}>
           <Image source={assets.result.comments} style={styles.listIc} />
           <Text
             numberOfLines={3}
-            style={{
-              fontSize: 12,
-              fontWeight: '500',
-              color: 'grey',
-              marginLeft: 6,
-            }}>
+            style={styles.commentsCount}>
             {item.comments}
           </Text>
         </View>
@@ -91,4 +78,19 @@ const styles = StyleSheet.create({
     color: 'grey',
     marginLeft: 8,
   },
+  detailsCard: {
+    width: width - 100,
+  },
+  commentsContainer: {
+    width: 34,
+    height: 20,
+    flexDirection: 'row',
+    marginLeft: 5,
+  },
+  commentsCount: {
+    fontSize: 12,
+    fontWeight: '500',
+    color: 'grey',
+    marginLeft: 6,
+  }
 });

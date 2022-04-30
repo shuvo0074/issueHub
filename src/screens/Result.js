@@ -28,32 +28,6 @@ import ResultItem from '../components/result/ResultItem';
 
 const {height} = Dimensions.get('screen');
 
-const Section = ({children, title}): Node => {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-};
-
 const Result: () => Node = ({navigation}) => {
   const isDarkMode = useColorScheme() === 'dark';
   const dispatch = useDispatch();
@@ -82,45 +56,20 @@ const Result: () => Node = ({navigation}) => {
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
         style={backgroundStyle}
-        contentContainerStyle={{
-          minHeight: height,
-        }}>
+        contentContainerStyle={styles.scrollContainer}>
         <Logo style={styles.logo} />
         <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            borderBottomWidth: 1,
-            borderBottomColor: '#373d53',
-            paddingBottom: 25,
-          }}>
+          style={styles.titleRow}>
           <Text
             numberOfLines={3}
-            style={{
-              fontSize: 20,
-              fontWeight: '500',
-              color: '#fff',
-              marginLeft: 25,
-            }}>
+            style={styles.titleTxt}>
             Issues
           </Text>
           <View
-            style={{
-              backgroundColor: '#1c243d',
-              paddingVertical: 3,
-              paddingHorizontal: 6,
-              borderRadius: 12,
-              alignItems: 'center',
-              justifyContent: 'center',
-              marginLeft: 10,
-            }}>
+            style={styles.countPill}>
             <Text
               numberOfLines={3}
-              style={{
-                fontSize: 12,
-                fontWeight: '600',
-                color: 'grey',
-              }}>
+              style={styles.pillTxt}>
               {openIssueCount}
             </Text>
           </View>
@@ -141,22 +90,36 @@ const styles = StyleSheet.create({
   logo: {
     marginLeft: 25,
   },
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
+  scrollContainer: {
+    minHeight: height,
   },
-  sectionTitle: {
-    fontSize: 24,
+  titleRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderBottomWidth: 1,
+    borderBottomColor: '#373d53',
+    paddingBottom: 25,
+  },
+  titleTxt: {
+    fontSize: 20,
+    fontWeight: '500',
+    color: '#fff',
+    marginLeft: 25,
+  },
+  countPill: {
+    backgroundColor: '#1c243d',
+    paddingVertical: 3,
+    paddingHorizontal: 6,
+    borderRadius: 12,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginLeft: 10,
+  },
+  pillTxt: {
+    fontSize: 12,
     fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
+    color: 'grey',
+  }
 });
 
 export default Result;
