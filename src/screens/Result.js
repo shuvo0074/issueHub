@@ -12,17 +12,13 @@ import {
   ScrollView,
   StatusBar,
   StyleSheet,
-  Text,
-  useColorScheme,
+  BackHandler,
   View,
   Dimensions,
 } from 'react-native';
 
 import {useDispatch, useSelector} from 'react-redux';
-import {
-  clearResult,
-  setSearchPageIndex,
-} from '../actions/searchActions';
+import {clearResult, setSearchPageIndex} from '../actions/searchActions';
 import {fetchIssues} from '../actions/common';
 import SubmitButton from '../components/search/SubmitButton';
 import Logo from '../components/global/Logo';
@@ -35,9 +31,19 @@ const {height} = Dimensions.get('screen');
 
 const Result: () => Node = ({navigation}) => {
   const dispatch = useDispatch();
+  const handleBackPress = () => {
+    navigation.goBack(null);
+    dispatch(clearResult());
+    return true;
+  };
 
   const {currentPageIndex, currentState, issueList, openIssueCount} =
     useSelector(state => state.issues);
+  useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', handleBackPress);
+    return () =>
+      BackHandler.addEventListener('hardwareBackPress', handleBackPress);
+  }, []);
 
   useEffect(() => {
     dispatch(setSearchPageIndex(1));
@@ -66,13 +72,7 @@ const Result: () => Node = ({navigation}) => {
           <ResultItem item={item} key={item.id} />
         ))}
         <BottomTab />
-        <SubmitButton
-          title="Search Again"
-          onPress={() => {
-            navigation.goBack(null);
-            dispatch(clearResult());
-          }}
-        />
+        <SubmitButton title="Search Again" onPress={handleBackPress} />
       </ScrollView>
     </View>
   );
