@@ -10,7 +10,7 @@ export default function BottomtabBtnPrevious({
 }) {
   return (
     <TouchableOpacity
-      disabled={isActive}
+      disabled={!isActive}
       onPress={onPress}
       style={styles.tabBtn}>
       <AppIcon

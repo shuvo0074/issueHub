@@ -10,7 +10,7 @@ export default function BottomtabBtnNext({
 }) {
   return (
     <TouchableOpacity
-      disabled={isActive}
+      disabled={!isActive}
       onPress={onPress}
       style={styles.tabBtn}>
       <Text style={styles.tabTxt(isActive)}>{btnId}</Text>
