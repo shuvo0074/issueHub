@@ -5,10 +5,10 @@ import {
   TouchableOpacity,
   View,
   Dimensions,
-  Image,
 } from 'react-native';
 import {assets} from '../../assets';
 import getTimeDifference from '../../services/getTimeDifference';
+import AppIcon from '../global/AppIcon';
 
 export default function ResultItem({item}) {
   const [isSelected, setIsSelected] = useState(false);
@@ -16,16 +16,14 @@ export default function ResultItem({item}) {
     <TouchableOpacity
       onPress={() => setIsSelected(s => !s)}
       style={styles.itemContainer(isSelected)}>
-      <Image
-        source={
+      <AppIcon
+        icon={
           item.state == 'open'
             ? assets.result.openIconForList
             : assets.result.closediconForList
         }
-        style={styles.listIc}
       />
-      <View
-        style={styles.detailsCard}>
+      <View style={styles.detailsCard}>
         <Text numberOfLines={3} style={styles.titletxt}>
           {item.title}
         </Text>
@@ -36,12 +34,9 @@ export default function ResultItem({item}) {
         }`}</Text>
       </View>
       {item.comments ? (
-        <View
-          style={styles.commentsContainer}>
-          <Image source={assets.result.comments} style={styles.listIc} />
-          <Text
-            numberOfLines={3}
-            style={styles.commentsCount}>
+        <View style={styles.commentsContainer}>
+          <AppIcon icon={assets.result.comments} />
+          <Text numberOfLines={3} style={styles.commentsCount}>
             {item.comments}
           </Text>
         </View>
@@ -62,10 +57,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 25,
     flexDirection: 'row',
   }),
-  listIc: {
-    height: 18,
-    width: 18,
-  },
   titletxt: {
     fontSize: 16,
     fontWeight: '600',
@@ -92,5 +83,5 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     color: 'grey',
     marginLeft: 6,
-  }
+  },
 });
