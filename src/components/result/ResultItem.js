@@ -36,7 +36,7 @@ export default function ResultItem({item}) {
         </Text>
         <Text style={styles.descTxt}>{`#${
           item.number
-        } opened ${getTimeDifference(item.created_at)} ago by  ${
+        } opened ${getTimeDifference(new Date(item.created_at))} ago by ${
           item.user.login
         }`}</Text>
       </View>
