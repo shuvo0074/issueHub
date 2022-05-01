@@ -1,11 +1,11 @@
 import {baseUrl} from '../env.js';
 export default async function FetchService(
-  method = 'GET',
-  path,
-  triedCount = 5,
-  jsonBody = {},
+  method: String = 'GET',
+  path: String,
+  triedCount: number = 5,
+  jsonBody: object = {},
 ) {
-  function errorHandler(err) {
+  function errorHandler(err: Error): any {
     let retryCount = triedCount - 1;
     if (!retryCount) {
       throw err;
@@ -16,7 +16,7 @@ export default async function FetchService(
     );
   }
 
-  function setDelay(d) {
+  function setDelay(d: number) {
     return new Promise(resolve => setTimeout(resolve, d));
   }
   let url = baseUrl + path;
@@ -24,9 +24,10 @@ export default async function FetchService(
   let headers = {
     Accept: '*/*',
   };
-  let body = JSON.stringify(jsonBody);
+  let body: String = JSON.stringify(jsonBody);
 
-  let options = method == 'POST' ? {method, headers, body} : {method, headers};
+  let options: Object =
+    method == 'POST' ? {method, headers, body} : {method, headers};
 
   return fetch(url, options)
     .then(async data => {

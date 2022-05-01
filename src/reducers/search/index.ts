@@ -1,4 +1,15 @@
-export const INITIAL_STATE = {
+export type state = {
+  issueList: Array<any>;
+  openIssueCount: number;
+  totalIssueCount: number;
+  username_param: string;
+  repository_param: string;
+  currentState: string;
+  currentPageIndex: number;
+  isLastResultPage: boolean;
+};
+
+export const INITIAL_STATE: state = {
   issueList: [],
   openIssueCount: 0,
   totalIssueCount: 0,
@@ -9,7 +20,7 @@ export const INITIAL_STATE = {
   isLastResultPage: false,
 };
 
-export const searchReducer = (state = INITIAL_STATE, action) => {
+export const searchReducer = (state: state = INITIAL_STATE, action: any) => {
   switch (action.type) {
     case 'SYNC_RESULT': {
       return {
