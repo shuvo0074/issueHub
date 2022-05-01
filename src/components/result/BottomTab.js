@@ -1,7 +1,7 @@
 import React from 'react';
 import {StyleSheet, View, Dimensions} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
-import {setissueCount} from '../../actions/searchActions';
+import {setSearchPageIndex} from '../../actions/searchActions';
 import BottomtabBtnNext from './BottomtabBtnNext';
 import BottomtabBtnPrevious from './BottomtabBtnPrevious';
 
@@ -16,10 +16,10 @@ export default function BottomTab() {
   } = useSelector(state => state.issues);
 
   const onNextButtonPress = () => {
-    dispatch(setissueCount(currentPageIndex + 1));
+    dispatch(setSearchPageIndex(currentPageIndex + 1));
   };
   const onPreviousButtonPress = () => {
-    dispatch(setissueCount(currentPageIndex - 1));
+    dispatch(setSearchPageIndex(currentPageIndex - 1));
   };
   return (
     <View style={styles.titleRow}>
