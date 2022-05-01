@@ -41,10 +41,6 @@ const Search: () => Node = ({navigation}) => {
     state => state.issues,
   );
 
-  useEffect(() => {
-    dispatch(fetchSingleUserDetails());
-  }, []);
-
   const backgroundStyle = {
     backgroundColor: '#0c1955',
   };
