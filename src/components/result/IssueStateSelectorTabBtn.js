@@ -10,7 +10,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {toggleSearchState} from '../../actions/searchActions';
 
 export default function IssueStateSelectorTabBtn({btnId}) {
-  const {currentState} = useSelector(state => state.issues);
+  const {currentState,openIssueCount} = useSelector(state => state.issues);
   const dispatch = useDispatch();
   return (
     <TouchableOpacity
@@ -20,14 +20,14 @@ export default function IssueStateSelectorTabBtn({btnId}) {
       }}
       style={styles.tabBtn(currentState == btnId)}>
       <AppIcon icon={assets.result[btnId]} />
-      <Text style={styles.tabTxt}>{btnId}</Text>
+      <Text style={styles.tabTxt}>{`${btnId=='open'?openIssueCount:''} ${btnId}`}</Text>
     </TouchableOpacity>
   );
 }
 
 const styles = StyleSheet.create({
   tabBtn: isActive => ({
-    width: 80,
+    width: 100,
     paddingLeft: 25,
     flexDirection: 'row',
     alignItems: 'center',
