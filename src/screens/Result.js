@@ -25,6 +25,7 @@ import SubmitButton from '../components/search/SubmitButton';
 import Logo from '../components/global/Logo';
 import ResultItem from '../components/result/ResultItem';
 import IssuesHeader from '../components/result/IssuesHeader';
+import IssueStateSelectorTab from '../components/result/IssueStateSelectorTab';
 
 const {height} = Dimensions.get('screen');
 
@@ -42,8 +43,8 @@ const Result: () => Node = ({navigation}) => {
 
   useEffect(() => {
     dispatch(fetchIssues());
-    return () => dispatch(clearResult());
-  }, []);
+    // return () => dispatch(clearResult());
+  }, [currentState]);
 
   const backgroundStyle = {
     backgroundColor: '#040C28',
@@ -58,7 +59,8 @@ const Result: () => Node = ({navigation}) => {
         style={backgroundStyle}
         contentContainerStyle={styles.scrollContainer}>
         <Logo style={styles.logo} />
-        <IssuesHeader openIssueCount={openIssueCount}/>
+        <IssuesHeader openIssueCount={openIssueCount} />
+        <IssueStateSelectorTab />
         {issueList.map(item => (
           <ResultItem item={item} key={item.id} />
         ))}
@@ -77,7 +79,7 @@ const styles = StyleSheet.create({
   },
   scrollContainer: {
     minHeight: height,
-  }
+  },
 });
 
 export default Result;
