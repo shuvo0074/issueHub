@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   View,
   Dimensions,
+  Linking,
 } from 'react-native';
 import {assets} from '../../assets';
 import getTimeDifference from '../../services/getTimeDifference';
@@ -14,7 +15,13 @@ export default function ResultItem({item}) {
   const [isSelected, setIsSelected] = useState(false);
   return (
     <TouchableOpacity
-      onPress={() => setIsSelected(s => !s)}
+      onPress={() => {
+        setIsSelected(s => !s);
+        setTimeout(() => {
+          Linking.openURL(item.html_url);
+          setIsSelected(s => !s);
+        }, 500);
+      }}
       style={styles.itemContainer(isSelected)}>
       <AppIcon
         icon={
