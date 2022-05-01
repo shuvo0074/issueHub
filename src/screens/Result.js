@@ -19,32 +19,33 @@ import {
 } from 'react-native';
 
 import {useDispatch, useSelector} from 'react-redux';
-import {clearResult} from '../actions/searchActions';
+import {
+  clearResult,
+  setSearchPageIndex,
+} from '../actions/searchActions';
 import {fetchIssues} from '../actions/common';
 import SubmitButton from '../components/search/SubmitButton';
 import Logo from '../components/global/Logo';
 import ResultItem from '../components/result/ResultItem';
 import IssuesHeader from '../components/result/IssuesHeader';
 import IssueStateSelectorTab from '../components/result/IssueStateSelectorTab';
+import BottomTab from '../components/result/BottomTab';
 
 const {height} = Dimensions.get('screen');
 
 const Result: () => Node = ({navigation}) => {
-  const isDarkMode = useColorScheme() === 'dark';
   const dispatch = useDispatch();
 
-  const {
-    currentPageIndex,
-    currentState,
-    isLastResultPage,
-    issueList,
-    openIssueCount,
-  } = useSelector(state => state.issues);
+  const {currentPageIndex, currentState, issueList, openIssueCount} =
+    useSelector(state => state.issues);
 
   useEffect(() => {
+    dispatch(setSearchPageIndex(1));
     dispatch(fetchIssues());
-    // return () => dispatch(clearResult());
   }, [currentState]);
+  useEffect(() => {
+    if (currentPageIndex > 1) dispatch(fetchIssues()); // for currentPageIndex = 1 , previous effect will sync issue list
+  }, [currentPageIndex]);
 
   const backgroundStyle = {
     backgroundColor: '#040C28',
@@ -64,9 +65,13 @@ const Result: () => Node = ({navigation}) => {
         {issueList.map(item => (
           <ResultItem item={item} key={item.id} />
         ))}
+        <BottomTab />
         <SubmitButton
           title="Search Again"
-          onPress={() => navigation.navigate('Search')}
+          onPress={() => {
+            navigation.goBack(null);
+            dispatch(clearResult());
+          }}
         />
       </ScrollView>
     </View>
