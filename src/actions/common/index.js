@@ -39,12 +39,12 @@ export const fetchSingleRepoDetails = () => (dispatch, getState) => {
           resolve(res);
         } else {
           setissueCount(0);
-          reject('Project Not Found');
+          reject(new Error('Project Not Found'));
         }
       })
       .catch(() => {
         setissueCount(0);
-        reject('Project Not Found');
+        reject(new Error('Project Not Found'));
       });
   });
 };
@@ -57,12 +57,12 @@ export const fetchSingleUserDetails = () => (dispatch, getState) => {
           resolve(res);
         } else {
           setissueCount(0);
-          reject('User Not found');
+          reject(new Error('User Not found'));
         }
       })
       .catch(() => {
         setissueCount(0);
-        reject('User Not Found');
+        reject(new Error('User Not found'));
       });
   });
 };

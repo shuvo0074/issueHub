@@ -55,7 +55,7 @@ export default function CustomTextInput({
               dispatch(checkValidity()) // check if input is valid from API
                 .then(() => setInputState(INPUT_STATES.ACCEPTED))
                 .catch(e => {
-                  setErrorMessage(e);
+                  setErrorMessage(e.message);
                   setInputState(INPUT_STATES.ERROR);
                 });
           }}
