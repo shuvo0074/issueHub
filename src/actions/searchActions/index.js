@@ -31,17 +31,20 @@ export const setRepositoryNameSearchParam = repositoryTitle => {
     payload: repositoryTitle,
   };
 };
+
 export const toggleSearchState = () => {
   return {
     type: 'TOGGLE_CURRENT_STATE',
   };
 };
+
 export const setSearchPageIndex = index => {
   return {
     type: 'SET_PAGE_INDEX',
     payload: index,
   };
 };
+
 export const toggleResultListEnd = () => {
   return {
     type: 'TOGGLE_RESULT_LIST_ENDED',

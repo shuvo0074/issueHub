@@ -34,7 +34,6 @@ const styles = StyleSheet.create({
   tabTxt: isActive => ({
     fontSize: 14,
     fontWeight: '600',
-    color: '#fff',
     marginLeft: 8,
     color: isActive ? '#3267F0' : 'grey',
   }),

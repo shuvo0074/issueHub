@@ -1,5 +1,5 @@
-import { combineReducers } from "redux";
-import { searchReducer } from "./search";
+import {combineReducers} from 'redux';
+import {searchReducer} from './search';
 
 const appReducers = combineReducers({
   issues: searchReducer,

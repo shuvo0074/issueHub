@@ -6,7 +6,7 @@
  * @flow strict-local
  */
 
-import React, {useEffect} from 'react';
+import React from 'react';
 import type {Node} from 'react';
 import {
   View,
@@ -53,10 +53,7 @@ const Search: () => Node = ({navigation}) => {
         imageStyle={styles.bgImage}
         style={styles.bgContainer}>
         <Logo />
-        <KeyboardAwareScrollView
-          contentContainerStyle={{
-            marginTop: 80,
-          }}>
+        <KeyboardAwareScrollView contentContainerStyle={styles.scroll}>
           <CustomTextInput
             value={username_param}
             setValue={txt => dispatch(setUserNameSearchParam(txt))}
@@ -90,6 +87,9 @@ const Search: () => Node = ({navigation}) => {
 };
 
 const styles = StyleSheet.create({
+  scroll: {
+    marginTop: 80,
+  },
   bgImage: {
     height,
   },

@@ -51,13 +51,14 @@ export default function CustomTextInput({
             if (isRequired && (!value || value?.length <= 0)) {
               setErrorMessage('Field is required');
               setInputState(INPUT_STATES.ERROR);
-            } else
+            } else {
               dispatch(checkValidity()) // check if input is valid from API
                 .then(() => setInputState(INPUT_STATES.ACCEPTED))
                 .catch(e => {
                   setErrorMessage(e.message);
                   setInputState(INPUT_STATES.ERROR);
                 });
+            }
           }}
           onChangeText={setValue}
           style={styles.textInput}
@@ -65,7 +66,7 @@ export default function CustomTextInput({
 
         {/* container for tick icon if input is ACCEPTED */}
         <View style={styles.rightIconContainer}>
-          {inputState == INPUT_STATES.ACCEPTED ? (
+          {inputState === INPUT_STATES.ACCEPTED ? (
             <Image source={assets.search.icCorrect} style={styles.rightIcon} />
           ) : null}
         </View>
@@ -73,7 +74,7 @@ export default function CustomTextInput({
 
       {/* error container */}
       <View style={styles.errorCont}>
-        {inputState == INPUT_STATES.ERROR ? (
+        {inputState === INPUT_STATES.ERROR ? (
           <ImageBackground
             style={styles.errorBG}
             source={assets.search.errorBg}>
@@ -113,10 +114,10 @@ const styles = StyleSheet.create({
   },
   textInpContainer: inputState => ({
     borderWidth:
-      inputState == INPUT_STATES.ERROR || inputState == INPUT_STATES.FOCUSED
+      inputState === INPUT_STATES.ERROR || inputState === INPUT_STATES.FOCUSED
         ? 1
         : 0,
-    borderColor: inputState == INPUT_STATES.ERROR ? '#FF0000' : '#3267F0',
+    borderColor: inputState === INPUT_STATES.ERROR ? '#FF0000' : '#3267F0',
     width: width - 50,
     alignSelf: 'center',
     borderRadius: 12,

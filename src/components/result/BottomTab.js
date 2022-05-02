@@ -10,17 +10,18 @@ const {width} = Dimensions.get('screen');
 export default function BottomTab() {
   const dispatch = useDispatch();
 
-  const {
-    currentPageIndex,
-    isLastResultPage,
-  } = useSelector(state => state.issues);
+  const {currentPageIndex, isLastResultPage} = useSelector(
+    state => state.issues,
+  );
 
   const onNextButtonPress = () => {
     dispatch(setSearchPageIndex(currentPageIndex + 1));
   };
+
   const onPreviousButtonPress = () => {
     dispatch(setSearchPageIndex(currentPageIndex - 1));
   };
+
   return (
     <View style={styles.titleRow}>
       <BottomtabBtnPrevious

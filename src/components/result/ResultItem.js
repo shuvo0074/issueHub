@@ -17,6 +17,7 @@ export default function ResultItem({item}) {
     <TouchableOpacity
       onPress={() => {
         setIsSelected(s => !s);
+
         setTimeout(() => {
           Linking.openURL(item.html_url);
           setIsSelected(s => !s);
@@ -25,7 +26,7 @@ export default function ResultItem({item}) {
       style={styles.itemContainer(isSelected)}>
       <AppIcon
         icon={
-          item.state == 'open'
+          item.state === 'open'
             ? assets.result.openIconForList
             : assets.result.closediconForList
         }

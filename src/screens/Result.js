@@ -31,6 +31,7 @@ const {height} = Dimensions.get('screen');
 
 const Result: () => Node = ({navigation}) => {
   const dispatch = useDispatch();
+
   const handleBackPress = () => {
     navigation.goBack(null);
     dispatch(clearResult());
@@ -39,18 +40,22 @@ const Result: () => Node = ({navigation}) => {
 
   const {currentPageIndex, currentState, issueList, openIssueCount} =
     useSelector(state => state.issues);
+
   useEffect(() => {
     BackHandler.addEventListener('hardwareBackPress', handleBackPress);
     return () =>
       BackHandler.addEventListener('hardwareBackPress', handleBackPress);
-  }, []);
+  }, [navigation]);
 
   useEffect(() => {
     dispatch(setSearchPageIndex(1));
     dispatch(fetchIssues());
   }, [currentState]);
+
   useEffect(() => {
-    if (currentPageIndex > 1) dispatch(fetchIssues()); // for currentPageIndex = 1 , previous effect will sync issue list
+    if (currentPageIndex > 1) {
+      dispatch(fetchIssues());
+    } // for currentPageIndex = 1 , previous effect will sync issue list
   }, [currentPageIndex]);
 
   const backgroundStyle = {

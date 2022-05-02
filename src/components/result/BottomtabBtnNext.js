@@ -32,7 +32,6 @@ const styles = StyleSheet.create({
   tabTxt: isActive => ({
     fontSize: 14,
     fontWeight: '600',
-    color: '#fff',
     color: isActive ? '#3267F0' : 'grey',
   }),
   arrow: {

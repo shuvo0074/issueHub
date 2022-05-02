@@ -28,11 +28,13 @@ export const searchReducer = (state: state = INITIAL_STATE, action: any) => {
         issueList: action.payload,
       };
     }
+
     case 'CLEAR_RESULT': {
       return {
         ...INITIAL_STATE,
       };
     }
+
     case 'SET_OPEN_ISSUE_COUNT': {
       return {
         ...state,
@@ -40,36 +42,42 @@ export const searchReducer = (state: state = INITIAL_STATE, action: any) => {
         totalIssueCount: action.payload,
       };
     }
+
     case 'SET_USERNAME_PARAM': {
       return {
         ...state,
         username_param: action.payload,
       };
     }
+
     case 'SET_REPOSITORY_PARAM': {
       return {
         ...state,
         repository_param: action.payload,
       };
     }
+
     case 'TOGGLE_CURRENT_STATE': {
       return {
         ...state,
-        currentState: state.currentState == 'open' ? 'closed' : 'open',
+        currentState: state.currentState === 'open' ? 'closed' : 'open',
       };
     }
+
     case 'SET_PAGE_INDEX': {
       return {
         ...state,
         currentPageIndex: action.payload,
       };
     }
+
     case 'TOGGLE_RESULT_LIST_ENDED': {
       return {
         ...state,
         isLastResultPage: !state.isLastResultPage,
       };
     }
+
     default:
       return state;
   }
