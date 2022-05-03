@@ -6,7 +6,7 @@
  * @flow strict-local
  */
 
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import type {Node} from 'react';
 import {
   View,
@@ -15,6 +15,7 @@ import {
   useColorScheme,
   ImageBackground,
   Dimensions,
+  Keyboard,
 } from 'react-native';
 const {height} = Dimensions.get('screen');
 
@@ -30,12 +31,13 @@ import {
 } from '../actions/searchActions';
 import {assets} from '../assets';
 import SubmitButton from '../components/search/SubmitButton';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import Logo from '../components/global/Logo';
 
 const Search: () => Node = ({navigation}) => {
   const isDarkMode = useColorScheme() === 'dark';
   const dispatch = useDispatch();
+
+  const [keyboardOpen, setkeyboardOpen] = useState(false);
 
   const {username_param, repository_param, openIssueCount} = useSelector(
     state => state.issues,
@@ -45,6 +47,15 @@ const Search: () => Node = ({navigation}) => {
     backgroundColor: '#0c1955',
   };
 
+  useEffect(() => {
+    Keyboard.addListener('keyboardWillShow', () => setkeyboardOpen(true));
+    Keyboard.addListener('keyboardWillHide', () => setkeyboardOpen(false));
+    return () => {
+      Keyboard.removeAllListeners('keyboardWillShow');
+      Keyboard.removeAllListeners('keyboardWillHide');
+    };
+  }, []);
+
   return (
     <View style={backgroundStyle}>
       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
@@ -52,35 +63,33 @@ const Search: () => Node = ({navigation}) => {
         source={assets.search.searchInputBg}
         imageStyle={styles.bgImage}
         style={styles.bgContainer}>
-        <Logo />
-        <KeyboardAwareScrollView contentContainerStyle={styles.scroll}>
-          <CustomTextInput
-            value={username_param}
-            setValue={txt => dispatch(setUserNameSearchParam(txt))}
-            checkValidity={fetchSingleUserDetails}
-            isRequired
-            autoFocus
-            customStyle={styles.textInputStyle}
-            title="Owner"
-            placeholder="Repository Name"
-          />
-          <CustomTextInput
-            value={repository_param}
-            setValue={txt => dispatch(setRepositoryNameSearchParam(txt))}
-            checkValidity={fetchSingleRepoDetails}
-            isRequired
-            customStyle={styles.textInputStyle}
-            title="Repository"
-            placeholder="Repository Name"
-          />
-          <SubmitButton
-            disabled={!openIssueCount}
-            title="Show Issues"
-            onPress={() => {
-              navigation.navigate('Result');
-            }}
-          />
-        </KeyboardAwareScrollView>
+        {keyboardOpen ? <View style={styles.topPadding} /> : <Logo />}
+        <CustomTextInput
+          value={username_param}
+          setValue={txt => dispatch(setUserNameSearchParam(txt))}
+          checkValidity={fetchSingleUserDetails}
+          isRequired
+          // autoFocus
+          customStyle={styles.textInputStyle}
+          title="Owner"
+          placeholder="Repository Name"
+        />
+        <CustomTextInput
+          value={repository_param}
+          setValue={txt => dispatch(setRepositoryNameSearchParam(txt))}
+          checkValidity={fetchSingleRepoDetails}
+          isRequired
+          customStyle={styles.textInputStyle}
+          title="Repository"
+          placeholder="Repository Name"
+        />
+        <SubmitButton
+          disabled={!openIssueCount}
+          title="Show Issues"
+          onPress={() => {
+            navigation.navigate('Result');
+          }}
+        />
       </ImageBackground>
     </View>
   );
@@ -98,6 +107,9 @@ const styles = StyleSheet.create({
   },
   textInputStyle: {
     marginBottom: 25,
+  },
+  topPadding: {
+    height: 30,
   },
 });
 
